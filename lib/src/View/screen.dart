@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,20 +12,19 @@ class UIscreen extends StatefulWidget {
 
 class _UIscreenState extends State<UIscreen> {
   
-  final TextEditingController _image = TextEditingController();
-  final TextEditingController _name = TextEditingController();
   final TextEditingController _code = TextEditingController();
-  final TextEditingController _gender = TextEditingController();
+  final TextEditingController _name = TextEditingController();
   final TextEditingController _age = TextEditingController();
+  final TextEditingController _gender = TextEditingController();
 
   final bool _checkCode = false;
   final bool _checkName = false;
   final bool _checkAge = false;
   final bool _checkGender = false;
-  final bool _checkImage = false;
+
   File? _selectedImage;
 
-  Future _PickImageFromCamera() async{
+  Future _pickImageFromCamera() async{
     final returnImage =
         await ImagePicker().pickImage(source: ImageSource.camera);
     if (returnImage == null) {
@@ -67,7 +65,9 @@ class _UIscreenState extends State<UIscreen> {
           ),
           const SizedBox(width: 25,),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _pickImageFromCamera();
+            },
             icon: const Icon(Icons.camera_alt_outlined),
           ),
           const SizedBox(width: 25,),
@@ -93,7 +93,8 @@ class _UIscreenState extends State<UIscreen> {
                           Radius.circular(30),
                         ),
                       ),
-                    )
+                      child: Image(image: AssetImage(_selectedImage!.path)),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20,),
@@ -106,14 +107,15 @@ class _UIscreenState extends State<UIscreen> {
                       padding: const EdgeInsets.all(5),
                       child: TextField(
                         controller: _code,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
                             Icons.code,
                             color: Colors.amberAccent,
                           ),
                           labelText: "Code",
                           hintText: "Enter Code",
-                          border: OutlineInputBorder(
+                          errorText: _checkCode ? "Please enter code!" : null,
+                          border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(25))
                           ),
                         ),
@@ -133,15 +135,15 @@ class _UIscreenState extends State<UIscreen> {
                       padding: const EdgeInsets.all(5),
                       child: TextField(
                         controller: _name,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
                             Icons.nat,
                             color: Colors.amberAccent,
                           ),
                           labelText: "Name",
                           hintText: "Enter Name",
-
-                          border: OutlineInputBorder(
+                          errorText: _checkName ? "Please enter name!" : null,
+                          border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(25))
                           ),
                         ),
@@ -161,14 +163,15 @@ class _UIscreenState extends State<UIscreen> {
                       padding: const EdgeInsets.all(5),
                       child: TextField(
                         controller: _gender,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
                             Icons.abc,
                             color: Colors.amberAccent,
                           ),
                           labelText: "Gender",
                           hintText: "Enter Gender",
-                          border: OutlineInputBorder(
+                          errorText: _checkGender ? "Please enter name!" : null,
+                          border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(25))
                           ),
                         ),
@@ -188,14 +191,15 @@ class _UIscreenState extends State<UIscreen> {
                       padding: const EdgeInsets.all(5),
                       child: TextField(
                         controller: _age,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
                             Icons.person,
                             color: Colors.amberAccent,
                           ),
                           labelText: "Age",
                           hintText: "Enter Age",
-                          border: OutlineInputBorder(
+                          errorText: _checkAge ? "Please enter name!" : null,
+                          border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(25))
                           ),
                         ),
@@ -214,7 +218,25 @@ class _UIscreenState extends State<UIscreen> {
                         Container(
                           height: 70,
                           width: 100,
-                          color: Colors.green,
+                          decoration: const BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Save", 
+                                  style: GoogleFonts.pacifico(),
+                                ),
+                              ],
+                            ),
+                          ),
                         )
                       ],
                     ),
@@ -223,7 +245,26 @@ class _UIscreenState extends State<UIscreen> {
                         Container(
                           height: 70,
                           width: 100,
-                          color: Colors.orange,
+                          decoration: const BoxDecoration(
+                            color: Colors.amber,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                              
+                            ),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Update", 
+                                  style: GoogleFonts.pacifico(),
+                                ),
+                              ],
+                            ),
+                          ),
                         )
                       ],
                     ),
